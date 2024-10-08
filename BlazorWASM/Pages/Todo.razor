@@ -1,0 +1,36 @@
+@page "/todo"
+
+<h3>Todo @_items.Count(item => !item.IsDone)</h3>
+
+<ul>
+    @foreach (var item in _items)
+    {
+        <li>
+            <input type="checkbox" @bind="@item.IsDone"/>
+            <input @bind="@item.Title"/>
+        </li>
+    }
+</ul>
+
+<input @bind="@_newItem"/>
+<button @onclick="@AddItem">Add todo</button>
+
+<InputText id="emailText" class="form-control" @bind-Value="TextProperty" />
+
+
+@code {
+
+    private List<TodoItem> _items = [];
+    private string _newItem = "";
+
+    private void AddItem()
+    {
+        if (!string.IsNullOrWhiteSpace(_newItem))
+        {
+            _items.Add(new TodoItem { Title = _newItem });
+            _newItem = string.Empty;
+        }
+    }
+    
+    public string TextProperty { get; set; } = "This is a test";
+}
